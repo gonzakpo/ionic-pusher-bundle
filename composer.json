@@ -1,0 +1,19 @@
+{
+    "name": "draw/ionic-pusher-bundle",
+    "type": "symfony-bundle",
+    "description": "Ionic pusher symfony bundel",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Draw\\IonicPusherBundle\\": ""
+        }
+    },
+    "require": {
+        "php": ">=5.4",
+        "acurrieclark/ionic-php-pusher": "^0.1.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.1.0"
+    }
+}
