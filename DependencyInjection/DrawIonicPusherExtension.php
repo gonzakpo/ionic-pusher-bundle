@@ -25,10 +25,8 @@ class DrawIonicPusherExtension extends Extension
         $loader->load('services.yml');
 
         $container->getDefinition('draw.ionic.pusher')->addArgument($config['auth_token']);
-
         if($container->getParameter('kernel.debug')) {
-
+            $loader->load('services_debug.yml');
         }
-        $loader->load('services_debug.yml');
     }
 }
