@@ -1,0 +1,14 @@
+services:
+  draw.ionic.pusher.collector_decorator:
+    class: Draw\IonicPusherBundle\Pusher\DataCollectorPusherDecorator
+    decorates: draw.ionic.pusher
+    arguments:  [@draw.ionic.pusher.collector_decorator.inner]
+
+  draw.ionic.pusher.collector:
+    class: Draw\IonicPusherBundle\Debug\PusherDataCollector
+    public: false
+    arguments: [@draw.ionic.pusher.collector_decorator]
+    calls:
+      - [setContainer, [@service_container]]
+    tags:
+      - { name: data_collector, template: DrawIonicPusherBundle:Collector:template.html.twig, id: draw.ionic.pusher.collector, priority: 0 }

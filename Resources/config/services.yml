@@ -1,0 +1,7 @@
+parameters:
+  draw.ionic.pusher.class: acurrieclark\IonicPhpPusher\Pusher
+
+services:
+  draw.ionic.pusher:
+    class: %draw.ionic.pusher.class%
+    arguments: []
