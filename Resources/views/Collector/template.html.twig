@@ -32,32 +32,13 @@
 
 {% block panel %}
     <h2>Requests</h2>
-    <table>
-        <tr>
-            <th>Profile</th><th>Tokens</th><th>Notifications</th><th>Response</th>
-        </tr>
-
-        {% for request in collector.requests %}
-            <tr>
-                <td>{{ request.profile }}</td>
-                <td>
-                    <ul>
-                        {% for token in request.tokens %}
-                        <li>{{ token }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-                <td>
-                    <pre>
-{{ request.notification|json_encode(constant('JSON_PRETTY_PRINT')) }}
-                    </pre>
-                </td>
-                <td>
-                    <pre>
-{{ request.result|json_encode(constant('JSON_PRETTY_PRINT')) }}
-                    </pre>
-                </td>
-            </tr>
-        {% endfor %}
-    </table>
+    {% for request in collector.requests %}
+        <table>
+            <tr><th colspan="2">Profile: {{ request.profile }} UUID: {{ request.result.data.uuid }}</th></tr>
+            <tr><td>Tokens</td><td>{{ request.tokens|join(', ') }}</td></tr>
+            <tr><td>Notification</td><td><pre>{{ request.notification|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
+            <tr><td>Result</td><td><pre>{{ request.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
+            <tr><td>Status</td><td><pre>{{ collector.getNotificationStatus(request.result.data.uuid)|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
+        </table>
+    {% endfor %}
 {% endblock %}

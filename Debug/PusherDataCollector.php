@@ -3,6 +3,7 @@
 namespace Draw\IonicPusherBundle\Debug;
 
 use Draw\IonicPusherBundle\Pusher\DataCollectorPusherDecorator;
+use Draw\IonicPusherBundle\Pusher\Pusher;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ class PusherDataCollector extends DataCollector implements ContainerAwareInterfa
     public function __construct(DataCollectorPusherDecorator $pusherDecorator)
     {
         $this->pusherDecorator = $pusherDecorator;
+        $this->data['auth_token'] = $pusherDecorator->getAuthToken();
     }
 
     /**
@@ -38,6 +40,14 @@ class PusherDataCollector extends DataCollector implements ContainerAwareInterfa
     public function getRequests()
     {
         return $this->data['requests'];
+    }
+
+    public function getNotificationStatus($uuid)
+    {
+        if(is_null($this->pusherDecorator)) {
+            $this->pusherDecorator = new Pusher($this->data['auth_token']);
+        }
+        return $this->pusherDecorator->getNotificationStatus($uuid);
     }
 
     /**

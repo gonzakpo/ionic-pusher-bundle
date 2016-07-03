@@ -1,5 +1,5 @@
 parameters:
-  draw.ionic.pusher.class: acurrieclark\IonicPhpPusher\Pusher
+  draw.ionic.pusher.class: Draw\IonicPusherBundle\Pusher\Pusher
 
 services:
   draw.ionic.pusher:
