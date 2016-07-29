@@ -2,8 +2,8 @@
 
 {% block toolbar %}
     {% set icon %}
-    <span class="icon">{{ include('@DrawIonicPusher/Icon/ionic.svg') }}</span>
-    <span class="sf-toolbar-status">Ionic Push</span>
+    {{ include('@DrawIonicPusher/Icon/ionic.svg') }}
+    <span class="sf-toolbar-status">{{ collector.requests|length }}</span>
     {% endset %}
 
     {% set text %}
@@ -26,19 +26,26 @@
     {# This left-hand menu appears when using the full-screen profiler. #}
     <span class="label">
         <span class="icon">{{ include('@DrawIonicPusher/Icon/ionic.svg') }}</span>
-        <strong>Ionic Push</strong>
+        <strong>Ionic Push </strong>
+        <span class="count">
+            <span>{{ collector.requests|length }}</span>
+        </span>
     </span>
 {% endblock %}
 
 {% block panel %}
-    <h2>Requests</h2>
-    {% for request in collector.requests %}
-        <table>
-            <tr><th colspan="2">Profile: {{ request.profile }} UUID: {{ request.result.data.uuid }}</th></tr>
-            <tr><td>Tokens</td><td>{{ request.tokens|join(', ') }}</td></tr>
-            <tr><td>Notification</td><td><pre>{{ request.notification|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
-            <tr><td>Result</td><td><pre>{{ request.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
-            <tr><td>Status</td><td><pre>{{ collector.getNotificationStatus(request.result.data.uuid)|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
-        </table>
-    {% endfor %}
+    <h2>Ionic Push Requests</h2>
+    {% if not collector.requests %}
+        <p><em>No requests.</em></p>
+    {% else %}
+        {% for request in collector.requests %}
+            <table>
+                <tr><th colspan="2">Profile: {{ request.profile }} UUID: {{ request.result.data.uuid }}</th></tr>
+                <tr><td>Tokens</td><td>{{ request.tokens|join(', ') }}</td></tr>
+                <tr><td>Notification</td><td><pre>{{ request.notification|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
+                <tr><td>Result</td><td><pre>{{ request.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
+                <tr><td>Status</td><td><pre>{{ collector.getNotificationStatus(request.result.data.uuid)|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
+            </table>
+        {% endfor %}
+    {% endif %}
 {% endblock %}
