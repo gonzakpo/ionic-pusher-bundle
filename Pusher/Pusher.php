@@ -3,6 +3,7 @@
 namespace Draw\IonicPusherBundle\Pusher;
 
 use GuzzleHttp\Client;
+use Psr\Log\LoggerInterface;
 
 class Pusher
 {
@@ -20,11 +21,21 @@ class Pusher
 
     private $defaultProfile;
 
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
     public function __construct($authToken, $defaultProfile = null)
     {
         $this->authToken = $authToken;
         $this->defaultProfile = $defaultProfile;
         $this->verifyAuthToken();
+    }
+
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
     }
 
     /**
@@ -65,6 +76,8 @@ class Pusher
         if(!$pushNotification->getProfile()) {
             $pushNotification->setProfile($this->defaultProfile);
         }
+
+        $this->logger && $this->logger->debug('Pusher send push notification', ['pushNotification' => json_decode(json_encode($pushNotification), true)]);
 
         $response = $this->getClient()
             ->post('/push/notifications',

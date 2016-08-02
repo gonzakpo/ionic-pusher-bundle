@@ -5,3 +5,5 @@ services:
   draw.ionic.pusher:
     class: %draw.ionic.pusher.class%
     arguments: []
+    calls:
+      - [setLogger, [@logger]]
