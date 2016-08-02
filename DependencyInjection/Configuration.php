@@ -21,6 +21,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder->root('draw_ionic_pusher')
             ->children()
                 ->scalarNode('auth_token')->isRequired()->end()
+                ->scalarNode('default_profile')->isRequired()->end()
             ->end();
 
         return $treeBuilder;

@@ -2,8 +2,6 @@
 
 namespace Draw\IonicPusherBundle\Pusher;
 
-use \acurrieclark\IonicPhpPusher\Pusher;
-
 class DataCollectorPusherDecorator extends Pusher
 {
     /**
@@ -15,6 +13,7 @@ class DataCollectorPusherDecorator extends Pusher
 
     public function __construct(Pusher $decoratedPusher)
     {
+        parent::__construct($decoratedPusher->getAuthToken(), $decoratedPusher->getDefaultProfile());
         $this->decoratedPusher = $decoratedPusher;
     }
 
@@ -23,10 +22,10 @@ class DataCollectorPusherDecorator extends Pusher
         return $this->decoratedPusher->getAuthToken();
     }
 
-    public function sendToTokens($tokens, $profile, $notification, $scheduled = null) {
+    public function sendPushNotification(PushNotification $pushNotification) {
 
-        $request = get_defined_vars();;
-        $request['result'] = $this->decoratedPusher->sendToTokens($tokens, $profile, $notification, $scheduled);
+        $request['pushNotification'] = $pushNotification;
+        $request['result'] = $this->decoratedPusher->sendPushNotification($pushNotification);
         $this->requests[] = $request;
         return $request['result'];
     }
@@ -34,6 +33,11 @@ class DataCollectorPusherDecorator extends Pusher
     public function testApiAccess()
     {
         return $this->decoratedPusher->testApiAccess();
+    }
+
+    public function getNotificationStatus($uuid)
+    {
+        return $this->decoratedPusher->getNotificationStatus($uuid);
     }
 
     public function getRequests()
