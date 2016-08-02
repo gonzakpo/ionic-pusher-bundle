@@ -40,9 +40,9 @@
     {% else %}
         {% for request in collector.requests %}
             <table>
-                <tr><th colspan="2">Profile: {{ request.profile }} UUID: {{ request.result.data.uuid }}</th></tr>
-                <tr><td>Tokens</td><td>{{ request.tokens|join(', ') }}</td></tr>
-                <tr><td>Notification</td><td><pre>{{ request.notification|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
+                <tr><th colspan="2">Profile: {{ request.pushNotification.profile }} UUID: {{ request.result.data.uuid }}</th></tr>
+                <tr><td>Tokens</td><td>{{ request.pushNotification.tokens|join(', ') }}</td></tr>
+                <tr><td>Notification</td><td><pre>{{ request.pushNotification.notification|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
                 <tr><td>Result</td><td><pre>{{ request.result|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
                 <tr><td>Status</td><td><pre>{{ collector.getNotificationStatus(request.result.data.uuid)|json_encode(constant('JSON_PRETTY_PRINT')) }}</pre></td></tr>
             </table>
